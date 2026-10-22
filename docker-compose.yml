@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: market-regime-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - S3_BUCKET_NAME=local-market-data-bucket
+      - SQS_QUEUE_URL=http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/market-regime-queue
+      - SNS_TOPIC_ARN=arn:aws:sns:us-east-1:000000000000:market-regime-alerts
+      - DYNAMODB_TABLE_NAME=MarketRegimes
+      - AWS_REGION=us-east-1
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: market-regime-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

@@ -1,0 +1,78 @@
+name: Market Regime Risk Engine CI/CD
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  test-and-lint:
+    name: Backend Unit Tests & Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+
+      - name: Run Pytest Test Suite
+        working-directory: backend
+        run: |
+          pytest test_engine.py -v --tb=short
+
+  terraform-quality:
+    name: Infrastructure as Code Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
+      - name: Terraform Format Check
+        working-directory: terraform
+        run: terraform fmt -check
+
+      - name: Terraform Init & Validate
+        working-directory: terraform
+        run: |
+          terraform init -backend=false
+          terraform validate
+
+  container-build-check:
+    name: Container Build & Packaging Verification
+    runs-on: ubuntu-latest
+    needs: [test-and-lint, terraform-quality]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: false
+          tags: market-regime-backend:latest
+
+      - name: Build Frontend Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: false
+          tags: market-regime-frontend:latest

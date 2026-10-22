@@ -1,0 +1,10 @@
+{
+  "name": "market-regime-frontend",
+  "version": "1.0.0",
+  "description": "Interactive Web Dashboard for Cloud-Native Market Regime Detection & Adaptive Portfolio Risk Engine",
+  "scripts": {
+    "start": "python -m http.server 3000 --directory ."
+  },
+  "author": "Nandini Sah & Prisha Gupta",
+  "license": "MIT"
+}
