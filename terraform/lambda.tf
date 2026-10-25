@@ -94,7 +94,7 @@ resource "aws_lambda_function" "regime_worker" {
   role          = aws_iam_role.lambda_exec.arn
   handler       = "worker.lambda_handler"
   runtime       = "python3.11"
-  timeout       = 60
+  timeout       = 30
   memory_size   = 512
 
   filename         = data.archive_file.lambda_dummy_zip.output_path

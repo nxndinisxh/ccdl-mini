@@ -58,11 +58,12 @@ resource "aws_sqs_queue" "regime_dlq" {
 }
 
 resource "aws_sqs_queue" "regime_events" {
-  name                      = "${var.project_name}-ingestion-queue"
-  delay_seconds             = 0
-  max_message_size          = 262144
-  message_retention_seconds = 86400 # 1 day
-  receive_wait_time_seconds = 10    # Long polling to optimize costs
+  name                       = "${var.project_name}-ingestion-queue"
+  delay_seconds              = 0
+  max_message_size           = 262144
+  message_retention_seconds  = 86400 # 1 day
+  receive_wait_time_seconds  = 10    # Long polling to optimize costs
+  visibility_timeout_seconds = 180   # Exceeds Lambda timeout to allow retries
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.regime_dlq.arn
