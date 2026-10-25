@@ -26,7 +26,7 @@ provider "aws" {
 # 1. Amazon S3 - Raw Financial Market Data Storage
 # -----------------------------------------------------------------------------
 resource "aws_s3_bucket" "market_data" {
-  bucket        = "${var.project_name}-market-data-${var.environment}"
+  bucket_prefix = "${var.project_name}-data-"
   force_destroy = true
 }
 
