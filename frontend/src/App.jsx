@@ -220,7 +220,7 @@ export default function App() {
             onClick={() => setShowSpecsModal(true)}
             className="px-2.5 py-1 bg-[#090b0e] hover:bg-[#131820] border border-[#2a3443] text-sky-400 font-mono text-[11px] transition"
           >
-            [DISCLOSURES // SPECS]
+            [CLOUD SPECS // ARCHITECTURE]
           </button>
         </div>
       </header>
@@ -639,15 +639,15 @@ export default function App() {
         </div>
       </footer>
 
-      {/* 5. DISCLOSURES & ACADEMIC AUDIT MODAL (DISCRETE, TERMINAL-STYLE) */}
+      {/* 5. PRODUCT & CLOUD ARCHITECTURE SPECIFICATION MODAL */}
       {showSpecsModal && (
         <div className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4">
           <div className="bg-[#0e1217] border border-[#2a3443] max-w-2xl w-full p-6 font-mono text-xs shadow-2xl relative">
             
             <div className="flex justify-between items-start border-b border-[#1c232d] pb-3 mb-4">
               <div>
-                <div className="text-white font-bold text-sm">ACADEMIC & SYSTEM SPECIFICATIONS</div>
-                <div className="text-[#64748b] text-[10px]">Cloud Computing & DevOps Mini-Project (Lab 12 Deliverable)</div>
+                <div className="text-white font-bold text-sm">AEGIS RISK // PRODUCT & CLOUD ARCHITECTURE</div>
+                <div className="text-[#64748b] text-[10px]">Zero-Cost AWS Serverless Microservices Platform</div>
               </div>
               <button 
                 onClick={() => setShowSpecsModal(false)}
@@ -674,13 +674,17 @@ export default function App() {
               </div>
 
               <div>
-                <span className="text-white font-bold block mb-1">EVALUATION DELIVERABLES:</span>
+                <span className="text-white font-bold block mb-1">FREE-TIER CLOUD & DEVOPS SPECIFICATION:</span>
                 <ul className="list-disc pl-5 space-y-1 text-[11px]">
-                  <li><strong>Technical Design Document:</strong> <code>docs/TECHNICAL_DESIGN_DOCUMENT.md</code></li>
-                  <li><strong>Research Paper Draft:</strong> <code>docs/RESEARCH_PAPER.md</code> (IEEE/ACM format)</li>
-                  <li><strong>Infrastructure as Code:</strong> <code>terraform/main.tf</code> (S3, SQS, SNS, DynamoDB, Budget Alert)</li>
-                  <li><strong>Automated CI/CD:</strong> <code>.github/workflows/ci-cd.yml</code> (Pytest, Lint, IaC Validate)</li>
-                  <li><strong>Source Repository:</strong> <code>https://github.com/nxndinisxh/ccdl-mini</code></li>
+                  <li><strong>AWS Lambda:</strong> 1,000,000 requests/mo (Always Free Tier) - Event worker</li>
+                  <li><strong>Amazon DynamoDB:</strong> 25 GB + 25 RCU/WCU (Always Free) - Provisioned mode</li>
+                  <li><strong>Amazon SQS & SNS:</strong> 1,000,000 msgs/mo (Always Free) - Decoupled queue & alerts</li>
+                  <li><strong>Amazon S3:</strong> 5 GB standard storage (Always Free) - Raw OHLCV tick data</li>
+                  <li><strong>AWS Budgets:</strong> $0.01 threshold automated zero-cost safeguard alarm</li>
+                  <li><strong>Infrastructure as Code:</strong> <code>terraform/main.tf</code> (Automated provisioning)</li>
+                  <li><strong>CI/CD Pipeline:</strong> <code>.github/workflows/ci-cd.yml</code> (Automated testing & linting)</li>
+                  <li><strong>Technical Design Doc:</strong> <code>docs/TECHNICAL_DESIGN_DOCUMENT.md</code></li>
+                  <li><strong>Source Code Repository:</strong> <code>https://github.com/nxndinisxh/ccdl-mini</code></li>
                 </ul>
               </div>
 

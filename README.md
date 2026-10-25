@@ -74,8 +74,7 @@ This project delivers an end-to-end, event-driven, cloud-native quantitative pla
 | **4. Cloud Managed Services (4+)** | Use at least 4 cloud services | **10 Cloud & DevOps tools used**: Amazon S3, AWS Lambda, Amazon SQS, Amazon SNS, Amazon DynamoDB, Amazon API Gateway, Amazon CloudWatch, AWS Budgets, HashiCorp Terraform, Docker, GitHub Actions |
 | **5. Domain Focus** | Fintech / AI/ML with primary focus on Cloud & DevOps | Fintech Quantitative Risk + Unsupervised ML with Serverless Cloud & DevOps |
 | **6a. Technical Design Document** | Intro, Problem, Architecture, Technical Designs, Lessons, Contributions | Complete document in [`docs/TECHNICAL_DESIGN_DOCUMENT.md`](docs/TECHNICAL_DESIGN_DOCUMENT.md) |
-| **6b. Live Demo** | Live application demo by team members | Interactive Web Dashboard with 1-click **Market Crash Stress Test (-5%)** |
-| **6c. Research Paper** | Encouraged academic paper draft | Full IEEE/ACM-style paper in [`docs/RESEARCH_PAPER.md`](docs/RESEARCH_PAPER.md) |
+| **6b. Live Product Demo** | Live application demo by team members | Institutional Risk Workstation with 1-click **Market Crash Stress Test (-5%)** |
 | **7. Budget Caution** | Free tier limits & cloud budget alerts | **AWS Budgets \$0.01 limit** automated alarm configured in `terraform/main.tf` |
 
 ---
@@ -159,11 +158,11 @@ ccdl-mini-project/
 │   ├── requirements.txt      # Python dependencies
 │   └── Dockerfile            # Multi-stage container build
 ├── frontend/
-│   ├── index.html            # Responsive, dark-mode single-page quantitative dashboard
-│   ├── app.js                # Canvas timeline visualizer & real-time state manager
-│   ├── styles.css            # Dark mode styles, glowing indicators, responsive grid
-│   ├── package.json          # Frontend scripts
-│   └── Dockerfile            # Lightweight Nginx container
+│   ├── index.html            # Vite entrypoint with IBM Plex fonts
+│   ├── src/                  # React 18 application (App.jsx, main.jsx, index.css)
+│   ├── package.json          # React, Tailwind, Recharts, Lucide dependencies
+│   ├── vite.config.js        # Vite config with API reverse proxy
+│   └── Dockerfile            # Multi-stage production container (Node build + Nginx)
 ├── terraform/
 │   ├── main.tf               # S3, SQS, SNS, DynamoDB, CloudWatch, AWS Budget alarm
 │   ├── lambda.tf             # IAM execution roles and Lambda serverless worker
@@ -174,8 +173,7 @@ ccdl-mini-project/
 ├── .github/workflows/
 │   └── ci-cd.yml             # GitHub Actions CI/CD pipeline
 ├── docs/
-│   ├── TECHNICAL_DESIGN_DOCUMENT.md   # Comprehensive Lab 12 design document
-│   └── RESEARCH_PAPER.md              # Academic paper draft (IEEE/ACM format)
+│   └── TECHNICAL_DESIGN_DOCUMENT.md   # Comprehensive technical design document
 ├── docker-compose.yml        # Multi-container orchestration
 └── README.md                 # Complete documentation
 ```

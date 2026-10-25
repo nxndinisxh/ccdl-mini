@@ -212,7 +212,7 @@ In accordance with course mini-project guidelines, the team responsibilities wer
   - Formulated and implemented the market feature extraction algorithms (`features.py`: log returns, rolling volatility, RSI, SMA ratios).
   - Designed the unsupervised K-Means market regime detection engine and semantic centroid mapping algorithm (`regime_engine.py`).
   - Implemented the quantitative portfolio risk metrics (`risk_engine.py`: VaR 95/99%, Expected Shortfall, Drawdown, and dynamic allocation weights).
-  - Developed the responsive web dashboard (`index.html`, `app.js`, `styles.css`) including the interactive canvas historical regime visualizer and crash simulation stress-testing module.
+  - Developed the institutional React 18 workstation UI (`src/App.jsx`) including the interactive price & regime timeseries visualizer, capital allocation engine, and crash simulation stress-testing sandbox.
   - Co-authored unit and integration test suites in `test_engine.py`.
 
 ---
@@ -225,6 +225,6 @@ In accordance with course mini-project guidelines, the team responsibilities wer
   - `/frontend`: Web dashboard UI and canvas visualization engine.
   - `/terraform`: Infrastructure as Code specifications.
   - `/.github/workflows`: Automated CI/CD pipeline definitions.
-  - `/docs`: Technical Design Document and Research Paper.
+  - `/docs`: Technical Design and Architecture Document.
   - `docker-compose.yml`: Multi-container local orchestration.
   - `README.md`: Quickstart deployment guide.
