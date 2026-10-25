@@ -237,9 +237,21 @@ def simulate_market_shock(request: ShockRequest):
         raise HTTPException(status_code=500, detail=str(exc))
 
 
-# Mount static frontend directory if it exists
+# Mount frontend static distribution or dev directory
+frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 frontend_dir = os.path.join(os.path.dirname(__file__), "..", "frontend")
-if os.path.exists(frontend_dir):
+
+if os.path.exists(frontend_dist) and os.path.exists(os.path.join(frontend_dist, "index.html")):
+    # Serve compiled React production build
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/")
+    def serve_dashboard():
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+elif os.path.exists(frontend_dir):
+    # Fallback to dev static mount
     app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 
     @app.get("/")
