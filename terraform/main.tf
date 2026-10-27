@@ -17,7 +17,7 @@ provider "aws" {
       Environment = var.environment
       ManagedBy   = "Terraform"
       Course      = "CCD-MiniProject"
-      Students    = "Nandini-Sah_Prisha-Gupta"
+      Team        = "Cloud-DevOps-Team"
     }
   }
 }

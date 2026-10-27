@@ -661,15 +661,13 @@ export default function App() {
               <div className="p-3 bg-[#090b0e] border border-[#1c232d] grid grid-cols-2 gap-3">
                 <div>
                   <span className="text-[#64748b] block text-[10px]">ENGINEERING TEAM</span>
-                  <div className="text-white font-bold">Nandini Sah (Reg: 240905552, Roll 54)</div>
-                  <div className="text-white font-bold">Prisha Gupta (Reg: 240905612, Roll 61)</div>
+                  <div className="text-white font-bold">Cloud & Quantitative Engineering</div>
                   <div className="text-[10px] text-[#64748b]">5th Semester // Section D // Batch D2</div>
                 </div>
                 <div>
-                  <span className="text-[#64748b] block text-[10px]">FACULTY SUPERVISORS</span>
-                  <div className="text-white font-bold">Dr. Anup Bhat</div>
-                  <div className="text-white font-bold">Dr. Swati B P</div>
-                  <div className="text-[10px] text-[#64748b]">School of Computer Engineering</div>
+                  <span className="text-[#64748b] block text-[10px]">COURSE & DOMAIN</span>
+                  <div className="text-white font-bold">Cloud Computing & DevOps</div>
+                  <div className="text-[10px] text-[#64748b]">Department of Computer Science & Engineering</div>
                 </div>
               </div>
 

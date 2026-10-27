@@ -19,7 +19,7 @@ variable "environment" {
 variable "alert_email" {
   description = "Email address for SNS regime shift notifications and zero-cost budget alarms"
   type        = string
-  default     = "nandini.prisha.devops@example.com"
+  default     = "devops.alerts@example.com"
 }
 
 variable "monthly_budget_limit" {

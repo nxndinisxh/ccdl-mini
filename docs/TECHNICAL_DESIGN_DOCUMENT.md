@@ -2,11 +2,8 @@
 
 **Course:** Cloud Computing & DevOps (Mini-Project)  
 **Academic Year:** 2026–2027 | Semester: 5th | Section: D | Batch: D2  
-**Department:** School of Computer Engineering  
-**Supervisors:** Dr. Anup Bhat & Dr. Swati B P  
-**Team Members:**
-- **Nandini Sah** (Reg. No.: 240905552, Roll: 54, CSE D)
-- **Prisha Gupta** (Reg. No.: 240905612, Roll: 61, CSE D)
+**Department:** Department of Computer Science & Engineering  
+**Project:** Cloud-Native Market Regime Detection & Adaptive Portfolio Risk Engine
 
 ---
 
@@ -197,7 +194,7 @@ On every pull request and push to the default branch, GitHub Actions executes:
 
 In accordance with course mini-project guidelines, the team responsibilities were distributed as follows:
 
-### Nandini Sah (Reg. No.: 240905552)
+### Role 1: Cloud Architecture & DevOps Lead
 - **Primary Focus Areas:** Cloud Architecture, Infrastructure as Code, CI/CD, and Backend API Services.
 - **Key Deliverables:**
   - Designed and authored the Terraform infrastructure scripts (`main.tf`, `lambda.tf`, `api_gateway.tf`, `variables.tf`, `outputs.tf`).
@@ -206,7 +203,7 @@ In accordance with course mini-project guidelines, the team responsibilities wer
   - Engineered the GitHub Actions continuous integration workflow (`ci-cd.yml`).
   - Developed the FastAPI server application (`main.py`) and Docker container configuration.
 
-### Prisha Gupta (Reg. No.: 240905612)
+### Role 2: Quantitative Modeling & Frontend Lead
 - **Primary Focus Areas:** Quantitative Feature Engineering, Unsupervised Machine Learning, Portfolio Risk Engine, and Frontend Visualization.
 - **Key Deliverables:**
   - Formulated and implemented the market feature extraction algorithms (`features.py`: log returns, rolling volatility, RSI, SMA ratios).

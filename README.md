@@ -1,13 +1,8 @@
 # Cloud-Native Market Regime Detection and Adaptive Portfolio Risk Engine
 
 > **Cloud Computing & DevOps (CCD) Mini-Project**  
-> **School of Computer Engineering** | Academic Year: 2026–2027 | 5th Semester  
+> **Department of Computer Science & Engineering** | Academic Year: 2026–2027 | 5th Semester  
 > **Batch:** D2 | **Section:** D  
-> **Team Members:**
-> - **Nandini Sah** (Reg. No.: 240905552, Roll: 54, CSE D)
-> - **Prisha Gupta** (Reg. No.: 240905612, Roll: 61, CSE D)  
-> 
-> **Faculty Supervisors:** Dr. Anup Bhat & Dr. Swati B P
 
 [![CI/CD Pipeline](https://github.com/nxndinisxh/ccdl-mini/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/nxndinisxh/ccdl-mini/actions)
 [![Infrastructure as Code](https://img.shields.io/badge/IaC-HashiCorp%20Terraform-7B42BC.svg)](terraform/)
