@@ -74,8 +74,19 @@ class CloudPersistenceService:
 
         if self.dynamodb_client:
             try:
-                # DynamoDB requires float conversion to Decimal or float-compatible formats
-                self.dynamodb_client.put_item(Item=record)
+                from decimal import Decimal
+
+                def _convert_floats_to_decimals(val):
+                    if isinstance(val, float):
+                        return Decimal(str(round(val, 6)))
+                    elif isinstance(val, dict):
+                        return {k: _convert_floats_to_decimals(v) for k, v in val.items()}
+                    elif isinstance(val, list):
+                        return [_convert_floats_to_decimals(v) for v in val]
+                    return val
+
+                ddb_item = _convert_floats_to_decimals(record)
+                self.dynamodb_client.put_item(Item=ddb_item)
                 logger.info(f"DynamoDB item persisted successfully for {record.get('ticker')}")
                 return True
             except Exception as e:
