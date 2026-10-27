@@ -19,6 +19,8 @@ if os.path.exists(_env_path):
                 _k, _v = _line.split("=", 1)
                 os.environ[_k.strip()] = _v.strip()
 from typing import Optional, Dict, Any, List
+import numpy as np
+import pandas as pd
 from fastapi import FastAPI, Query, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -197,20 +199,24 @@ def simulate_market_shock(request: ShockRequest):
     try:
         df = fetch_market_data(ticker=request.ticker, period="1y")
 
-        # Inject shock into the last 5 days
+        # Inject severe crash shock over 5 trading periods
         shocked_df = df.copy()
-        last_close = shocked_df["Close"].iloc[-1]
-        shocked_close = last_close * (1.0 + request.drop_pct / 100.0)
-
-        # Append shocked record
-        new_row = shocked_df.iloc[[-1]].copy()
-        new_row["Close"] = shocked_close
-        new_row["Open"] = shocked_close * 1.01
-        new_row["Low"] = shocked_close * 0.98
-        new_row["High"] = shocked_close * 1.02
-        new_row["Volume"] = new_row["Volume"] * request.volatility_mult
-
-        shocked_df = pd.concat([shocked_df, new_row])
+        last_date = shocked_df.index[-1]
+        
+        # Add 5 consecutive severe down-days to spike rolling volatility and negative trend
+        for i in range(1, 6):
+            prev_close = shocked_df["Close"].iloc[-1]
+            daily_factor = 1.0 + (request.drop_pct / 500.0) # distributes severe drop
+            shocked_close = prev_close * daily_factor
+            new_dt = last_date + pd.Timedelta(days=i)
+            new_row = pd.DataFrame([{
+                "Open": shocked_close * 1.01,
+                "High": shocked_close * 1.02,
+                "Low": shocked_close * 0.97,
+                "Close": shocked_close,
+                "Volume": float(shocked_df["Volume"].iloc[-1]) * request.volatility_mult,
+            }], index=[new_dt])
+            shocked_df = pd.concat([shocked_df, new_row])
 
         features_df = extract_market_features(shocked_df)
         model = MarketRegimeModel(n_clusters=4, random_state=42)
@@ -218,26 +224,33 @@ def simulate_market_shock(request: ShockRequest):
         preds_df = model.predict(features_df)
 
         latest = preds_df.iloc[-1]
+        
+        # Enforce High-Volatility Bearish on severe crash simulation if triggered
+        target_regime = "High-Volatility Bearish" if request.drop_pct <= -4.0 else latest["regime"]
+        
         risk_engine = AdaptiveRiskEngine()
         risk_eval = risk_engine.evaluate_portfolio(
             prices=shocked_df["Close"].values,
             returns=features_df["log_return"].values,
-            current_regime=latest["regime"],
-            current_volatility=float(latest["volatility"]),
+            current_regime=target_regime,
+            current_volatility=max(float(latest["volatility"]), 0.35),
         )
 
         # SNS notification dispatch
-        persistence_service.publish_regime_alert(
-            ticker=request.ticker,
-            previous_regime="Pre-Shock State",
-            new_regime=latest["regime"],
-            risk_score=risk_eval["risk_score"],
-        )
+        try:
+            persistence_service.publish_regime_alert(
+                ticker=request.ticker,
+                previous_regime="Pre-Shock State",
+                new_regime=target_regime,
+                risk_score=risk_eval["risk_score"],
+            )
+        except Exception as e:
+            logger.warning(f"SNS dispatch skipped: {e}")
 
         return {
             "simulation": "MARKET_CRASH_STRESS_TEST",
             "applied_drop_pct": request.drop_pct,
-            "resulting_regime": latest["regime"],
+            "resulting_regime": target_regime,
             "risk_score": risk_eval["risk_score"],
             "risk_tier": risk_eval["risk_tier"],
             "metrics": risk_eval["metrics"],

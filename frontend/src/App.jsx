@@ -133,16 +133,24 @@ export default function App() {
         risk_tier: data.risk_tier,
         metrics: data.metrics,
         recommendation: data.adaptive_recommendation,
-        current_price: prev ? prev.current_price * (1 + dropPct / 100) : 5000,
+        current_price: prev ? Math.round(prev.current_price * (1 + dropPct / 100) * 100) / 100 : 5000,
       }));
+
+      setHistoryData(prev => {
+        if (!prev || prev.length === 0) return prev;
+        const last = prev[prev.length - 1];
+        const shockedPrice = Math.round(last.close * (1 + dropPct / 100) * 100) / 100;
+        return [
+          ...prev.slice(0, -1),
+          { ...last, close: shockedPrice, regime: data.resulting_regime, log_return: dropPct }
+        ];
+      });
 
       setSystemAlert({
         regime: data.resulting_regime,
         score: data.risk_score,
         timestamp: new Date().toISOString().substring(11, 19)
       });
-
-      await loadHistory(selectedAsset.symbol);
     } catch (err) {
       console.error(err);
     } finally {
