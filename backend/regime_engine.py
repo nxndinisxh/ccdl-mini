@@ -11,10 +11,83 @@ to partition market environments into four distinct economic regimes:
 
 import numpy as np
 import pandas as pd
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
 from typing import Dict, Any, List, Optional
 from features import FEATURE_COLUMNS, extract_market_features
+
+# Pure NumPy implementations of StandardScaler and KMeans
+# Guarantees zero DLL / C-extension dependencies, instant startup,
+# and complete immunity from OS security / AppLocker DLL blocks.
+class PureNumpyScaler:
+    def __init__(self):
+        self.mean_ = None
+        self.scale_ = None
+
+    def fit(self, X):
+        X_arr = np.asarray(X, dtype=float)
+        self.mean_ = np.nanmean(X_arr, axis=0)
+        self.scale_ = np.nanstd(X_arr, axis=0)
+        self.scale_[self.scale_ == 0] = 1.0
+        return self
+
+    def fit_transform(self, X):
+        return self.fit(X).transform(X)
+
+    def transform(self, X):
+        X_arr = np.asarray(X, dtype=float)
+        return (X_arr - self.mean_) / self.scale_
+
+    def inverse_transform(self, X):
+        X_arr = np.asarray(X, dtype=float)
+        return (X_arr * self.scale_) + self.mean_
+
+
+class PureNumpyKMeans:
+    def __init__(self, n_clusters: int = 4, max_iter: int = 300, random_state: int = 42, *args, **kwargs):
+        self.n_clusters = n_clusters
+        self.max_iter = max_iter
+        self.random_state = random_state
+        self.cluster_centers_ = None
+        self.labels_ = None
+
+    def fit(self, X):
+        X_arr = np.asarray(X, dtype=float)
+        np.random.seed(self.random_state)
+        n_samples = X_arr.shape[0]
+        
+        # Initialize centers with random distinct samples
+        init_indices = np.random.choice(n_samples, self.n_clusters, replace=False)
+        self.cluster_centers_ = X_arr[init_indices].copy()
+
+        for _ in range(self.max_iter):
+            # Compute Euclidean distance to all cluster centers
+            # Shape: (n_samples, n_clusters)
+            dists = np.linalg.norm(X_arr[:, np.newaxis] - self.cluster_centers_, axis=2)
+            labels = np.argmin(dists, axis=1)
+
+            new_centers = np.array([
+                X_arr[labels == k].mean(axis=0) if np.any(labels == k) else self.cluster_centers_[k]
+                for k in range(self.n_clusters)
+            ])
+
+            if np.allclose(self.cluster_centers_, new_centers, atol=1e-4):
+                break
+            self.cluster_centers_ = new_centers
+
+        self.labels_ = labels
+        return self
+
+    def transform(self, X):
+        X_arr = np.asarray(X, dtype=float)
+        return np.linalg.norm(X_arr[:, np.newaxis] - self.cluster_centers_, axis=2)
+
+    def predict(self, X):
+        X_arr = np.asarray(X, dtype=float)
+        dists = self.transform(X_arr)
+        return np.argmin(dists, axis=1)
+
+
+KMeans = PureNumpyKMeans
+StandardScaler = PureNumpyScaler
 
 
 REGIME_NAMES = {
