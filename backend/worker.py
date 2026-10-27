@@ -55,14 +55,21 @@ class CloudPersistenceService:
         self.sns_client = None
         self.local_history = []
 
-        if os.getenv("AWS_EXECUTION_ENV") or self.sns_topic_arn:
+        if os.getenv("AWS_EXECUTION_ENV") or self.sns_topic_arn or os.getenv("AWS_ACCESS_KEY_ID"):
             try:
                 import boto3
 
-                self.dynamodb_client = boto3.resource(
-                    "dynamodb", region_name=self.aws_region
-                ).Table(self.table_name)
-                self.sns_client = boto3.client("sns", region_name=self.aws_region)
+                ak = os.getenv("AWS_ACCESS_KEY_ID")
+                sk = os.getenv("AWS_SECRET_ACCESS_KEY")
+                if ak and sk:
+                    session = boto3.Session(aws_access_key_id=ak, aws_secret_access_key=sk, region_name=self.aws_region)
+                    self.dynamodb_client = session.resource("dynamodb").Table(self.table_name)
+                    self.sns_client = session.client("sns")
+                else:
+                    self.dynamodb_client = boto3.resource(
+                        "dynamodb", region_name=self.aws_region
+                    ).Table(self.table_name)
+                    self.sns_client = boto3.client("sns", region_name=self.aws_region)
             except Exception as e:
                 logger.warning(f"AWS Boto3 initialization failed, running in local memory: {e}")
 

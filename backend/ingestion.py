@@ -139,8 +139,15 @@ class CloudDataPipeline:
             try:
                 import boto3
 
-                self.s3_client = boto3.client("s3", region_name=self.aws_region)
-                self.sqs_client = boto3.client("sqs", region_name=self.aws_region)
+                ak = os.getenv("AWS_ACCESS_KEY_ID")
+                sk = os.getenv("AWS_SECRET_ACCESS_KEY")
+                if ak and sk:
+                    session = boto3.Session(aws_access_key_id=ak, aws_secret_access_key=sk, region_name=self.aws_region)
+                    self.s3_client = session.client("s3")
+                    self.sqs_client = session.client("sqs")
+                else:
+                    self.s3_client = boto3.client("s3", region_name=self.aws_region)
+                    self.sqs_client = boto3.client("sqs", region_name=self.aws_region)
             except Exception as e:
                 logger.warning(f"Boto3 cloud client initialization skipped: {e}")
 
