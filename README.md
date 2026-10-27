@@ -64,21 +64,6 @@ This project delivers an end-to-end, event-driven, cloud-native quantitative pla
 
 ---
 
-## 🎯 Compliance with CCD Mini-Project Guidelines
-
-| Guideline | Requirement | Project Implementation |
-| :--- | :--- | :--- |
-| **1. Team Composition** | 2–3 students from same batch | **Nandini Sah** (Roll 54) & **Prisha Gupta** (Roll 61), Batch D2 |
-| **2. Approved Synopsis** | Approved topic submitted by Lab 5 | Cloud-Native Market Regime Detection & Adaptive Portfolio Risk Engine |
-| **3. Cloud Provider** | Public cloud provider or open-source | **Amazon Web Services (AWS)** Free Plan |
-| **4. Cloud Managed Services (4+)** | Use at least 4 cloud services | **10 Cloud & DevOps tools used**: Amazon S3, AWS Lambda, Amazon SQS, Amazon SNS, Amazon DynamoDB, Amazon API Gateway, Amazon CloudWatch, AWS Budgets, HashiCorp Terraform, Docker, GitHub Actions |
-| **5. Domain Focus** | Fintech / AI/ML with primary focus on Cloud & DevOps | Fintech Quantitative Risk + Unsupervised ML with Serverless Cloud & DevOps |
-| **6a. Technical Design Document** | Intro, Problem, Architecture, Technical Designs, Lessons, Contributions | Complete document in [`docs/TECHNICAL_DESIGN_DOCUMENT.md`](docs/TECHNICAL_DESIGN_DOCUMENT.md) |
-| **6b. Live Product Demo** | Live application demo by team members | Institutional Risk Workstation with 1-click **Market Crash Stress Test (-5%)** |
-| **7. Budget Caution** | Free tier limits & cloud budget alerts | **AWS Budgets \$0.01 limit** automated alarm configured in `terraform/main.tf` |
-
----
-
 ## 💰 Cloud Economics & AWS Free Tier Compliance ($0.00 / Month)
 
 Every service utilized was intentionally selected and configured within the **AWS Always Free Tier**:
